@@ -20,17 +20,7 @@ def gather_graph_info(currency, date_min, date_max, try_to_fetch_if_data_is_miss
     if missing_dates and try_to_fetch_if_data_is_missing:
         fetch_serv = FetchDataService([currency.code])
         new_data = fetch_serv.get_currency_rates(missing_dates)
-
-        for record in new_data:
-            currency = Currencies.objects.get(code=record['currency_code'])
-
-            if not RatesBaseDollar.objects.filter(currency=currency, date=record['date']).exists():
-                dict_rate = {
-                    'currency': currency,
-                    'date': record['date'],
-                    'rate': record['rate']
-                }
-                RatesBaseDollar(**dict_rate).save()
+        fetch_serv.insert_currency_rates(new_data)
 
         dates, rates, missing_dates = gather_graph_info(
             currency, date_min, date_max, try_to_fetch_if_data_is_missing=False

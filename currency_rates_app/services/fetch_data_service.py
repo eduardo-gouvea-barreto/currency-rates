@@ -3,6 +3,9 @@ import json
 import requests
 from typing import List, Dict
 
+from currency_rates_app.models import Currencies, RatesBaseDollar
+from currency_rates_app.services.date_service import is_workday
+
 
 class FetchDataService:
     """
@@ -67,3 +70,25 @@ class FetchDataService:
                             list_currency_rates.append(dict_currency_date)
 
         return list_currency_rates
+
+    @staticmethod
+    def insert_currency_rates(currency_rates):
+        for record in currency_rates:
+            currency = Currencies.objects.get(code=record['currency_code'])
+
+            if not RatesBaseDollar.objects.filter(currency=currency, date=record['date']).exists():
+                dict_rate = {
+                    'currency': currency,
+                    'date': record['date'],
+                    'rate': record['rate']
+                }
+                RatesBaseDollar(**dict_rate).save()
+
+
+def insert_today_rates():
+    today = datetime.date.today()
+    if is_workday(today):
+        currencies_codes = list(Currencies.objects.values_list('code', flat=True))
+        fetch_serv = FetchDataService(currencies_codes)
+        new_data = fetch_serv.get_currency_rates([today])
+        fetch_serv.insert_currency_rates(new_data)
