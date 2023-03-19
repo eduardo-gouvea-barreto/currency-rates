@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -133,5 +135,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MESSAGE_TAGS = {
+    messages.WARNING: 'danger',
+    messages.SUCCESS: 'success',
+}
+
 MAX_ENTRIES = 5  # Max data series' length
 DEFAULT_CURRENCY_CODE = 'BRL'
+FIRST_AVAILABLE_DATE = (1999, 1, 4)
+DEFAULT_DATE_FORMAT = "%m/%d/%Y"
+DEFAULT_DATE_FORMAT_WIDGET_INPUT = 'MM/DD/YYYY'

@@ -3,8 +3,6 @@ import json
 import requests
 from typing import List, Dict
 
-from currency_rates_app.services.date_service import build_workdays_list
-
 
 class FetchDataService:
     """
@@ -25,14 +23,14 @@ class FetchDataService:
     def base_currency(self):
         return self._base_currency
 
-    def get_currency_rates(self, date_start: datetime.date, date_end: datetime.date) -> List[Dict]:
+    def get_currency_rates(self, dates_list: List[datetime.date]) -> List[Dict]:
         """
-        Method that gets currency rates from class's currency lists, given a date range.
+        Method that gets currency rates from class's currency lists, given a date list.
         It returns a list of dicts with the desired information.
 
         Example:
                 >>> fetch_serv = FetchDataService(['BRL', 'EUR', 'JPY'])
-                >>> data = fetch_serv.get_currency_rates(datetime.date(2020, 1, 3), datetime.date(2020, 1, 3))
+                >>> data = fetch_serv.get_currency_rates([datetime.date(2020, 1, 3)])
                 >>> print(data)
                 [
                     {'date': datetime.date(2020, 1, 3), 'currency_code': 'BRL', 'rate': 4.061272091145599},
@@ -42,8 +40,6 @@ class FetchDataService:
         """
 
         list_currency_rates = []
-
-        dates_list = build_workdays_list(date_start, date_end)
 
         for date in dates_list:
             parameters = {

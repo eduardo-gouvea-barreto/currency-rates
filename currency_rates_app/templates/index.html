@@ -67,6 +67,15 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         <link rel="icon" type="image/png" href="{% static '/img/favicon.ico' %}">
         <div class="container">
+            {% if messages %}
+                <div class="row justify-content-md-center text-center">
+                    {% for message in messages %}
+                    <div class="col-8 p-4">
+                        <div class="alert alert-{{message.tags}}">{{ message }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <div class="row justify-content-md-center text-center">
                 <div class="col">
                     <figure class="highcharts-figure">

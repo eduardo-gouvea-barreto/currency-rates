@@ -1,48 +1,30 @@
 from django.shortcuts import render
+from django.contrib import messages
 
-from currency_rates.settings import DEFAULT_CURRENCY_CODE, MAX_ENTRIES
-from currency_rates_app.models import Currencies, RatesBaseDollar
-from currency_rates_app.forms.chart_form import ChartForm
+from currency_rates.settings import MAX_ENTRIES
+from currency_rates_app.forms.graph_form import GraphForm
+from currency_rates_app.services.graph_service import gather_graph_info, build_default_graph
 
 
 def index(request):
     if request.method == 'GET':
         if len(request.GET) > 0:
-            form = ChartForm(data=request.GET)
+            form = GraphForm(data=request.GET)
             if form.is_valid():
                 currency = form.cleaned_data['currency']
                 date_min, date_max = form.cleaned_data['date_range']
-
-                currency_rates = RatesBaseDollar.objects.filter(
-                    currency=currency,
-                    date__gte=date_min,
-                    date__lte=date_max
-                ).order_by('date').values('date', 'rate')
-
-                dates = [date.strftime("%m/%d/%Y") for date in currency_rates.values_list('date', flat=True)]
-                rates = [float(rate) for rate in currency_rates.values_list('rate', flat=True)]
+                dates, rates, missing_dates = gather_graph_info(currency, date_min, date_max)
+                if missing_dates:
+                    messages.warning(request, f"Unable to fetch data from dates: {', '.join(missing_dates)}")
             else:
-                currency = Currencies(**{'name': '', 'code': '', 'symbol': ''})
-                dates = []
-                rates = []
+                currency, dates, rates = None, [], []
         else:
-            currency = Currencies.objects.get(code=DEFAULT_CURRENCY_CODE)
-
-            currency_rates = RatesBaseDollar.objects.filter(
-                currency__name=currency.name
-            ).order_by('-date').values('date', 'rate')[:MAX_ENTRIES]
-
-            dates = [date.strftime("%m/%d/%Y") for date in currency_rates.values_list('date', flat=True)]
-            dates.reverse()
-
-            rates = [float(rate) for rate in currency_rates.values_list('rate', flat=True)]
-            rates.reverse()
-
-            form = ChartForm(initial={'currency': currency, 'date_range': f'{dates[0]} - {dates[-1]}'})
+            currency, dates, rates = build_default_graph()
+            form = GraphForm(initial={'currency': currency, 'date_range': f'{dates[0]} - {dates[-1]}'})
 
         context = {
-            'currency': currency.name,
-            'code': currency.name,
+            'currency': currency.name if currency is not None else '',
+            'code': currency.name if currency is not None else '',
             'dates': dates,
             'rates': rates,
             'form': form,
