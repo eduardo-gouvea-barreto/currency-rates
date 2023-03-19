@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'currency_rates_app.apps.CurrencyRatesAppConfig',
+    'rest_framework',
     'bootstrap_daterangepicker',
 ]
 
@@ -138,6 +139,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS = {
     messages.WARNING: 'danger',
     messages.SUCCESS: 'success',
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'
+    ]
 }
 
 MAX_ENTRIES = 5  # Max data series' length

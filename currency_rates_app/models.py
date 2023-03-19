@@ -26,3 +26,4 @@ class RatesBaseDollar(models.Model):
 
     class Meta:
         db_table = 'app_rates_base_dollar'
+        get_latest_by = ['date', 'currency__code']
