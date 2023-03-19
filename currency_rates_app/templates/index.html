@@ -76,6 +76,12 @@
                     {% endfor %}
                 </div>
             {% endif %}
+            <div class="row text-end">
+                <div class="col pt-2">
+                    <button class="btn btn-primary btn-modal" data-toggle="modal" data-target="#info">API
+                    </button>
+                </div>
+            </div>
             <div class="row justify-content-md-center text-center">
                 <div class="col">
                     <figure class="highcharts-figure">
@@ -154,5 +160,50 @@
                 ]
             });
         </script>
+        <div class="modal fade text-center" id="info" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog text-left">
+            <div class="modal-content width-500 mx-auto">
+                <div class="modal-header">
+                    <h3 class="modal-title">API</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" style="text-align:left">
+                        <strong><span style="color:green">GET</span> CURRENCIES</strong>
+                        <div class="p-2 mb-2 bg-primary text-white">https://{% verbatim %}{{domain}}{% endverbatim %}/api/currencies</div>
+                      <div style="line-height:1.5">
+                            <br>
+                          <span><strong>Example Request:</strong></span>
+                          <div>https://{% verbatim %}{{domain}}{% endverbatim %}/api/currencies</div>
+                          <br>
+                          <span><strong>Example Response:</strong></span>
+                          <div>
+                            [{"name":"Brazilian real","code":"BRL","symbol":"R$"},{"name":"Euro","code":"EUR","symbol":"€"},{"name":"Japanese yen","code":"JPY","symbol":"¥"}]
+                          </div>
+                      </div>
+                        <hr>
+                        <strong><span style="color:green">GET</span> RATES</strong>
+                      <div class="p-2 mb-2 bg-primary text-white">https://{% verbatim %}{{domain}}{% endverbatim %}/api/rates?currency_code={% verbatim %}{{code}}{% endverbatim %}&date_min={% verbatim %}{{YYYY-mm-dd}}{% endverbatim %}&date_max={% verbatim %}{{YYYY-mm-dd}}{% endverbatim %}</div>
+                      <div style="line-height:1.5">
+                            <br>
+                          <span><strong>Example Request:</strong></span>
+                          <div>https://{% verbatim %}{{domain}}{% endverbatim %}/api/rates?currency_code=EUR&date_min=2021-11-15&date_max=2021-11-18</div>
+                          <br>
+                          <span><strong>Example Response:</strong></span>
+                          <div>
+                            [{"currency_code":"EUR","date":"2021-11-18","rate":"0.8814"},{"currency_code":"EUR","date":"2021-11-17","rate":"0.8837"},{"currency_code":"EUR","date":"2021-11-16","rate":"0.8797"},{"currency_code":"EUR","date":"2021-11-15","rate":"0.8738"}]
+                          </div>
+                      </div>
+                  </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                $(".btn-modal").on('click', function() {
+                    let modal_ = $(this).attr('data-target');
+                    $(modal_).modal("toggle");
+                });
+            });
+        </script>
+    </div>
     </body>
 </html>

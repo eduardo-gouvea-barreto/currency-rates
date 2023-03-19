@@ -2,10 +2,6 @@ import datetime
 import django
 import os
 
-from currency_rates.settings import FIRST_AVAILABLE_DATE
-from currency_rates_app.services.fetch_data_service import FetchDataService
-from currency_rates_app.services.date_service import build_workdays_list
-
 
 def import_historic_data():
     """
@@ -29,5 +25,8 @@ if __name__ == '__main__':
     django.setup()
 
     from currency_rates_app.models import Currencies
+    from currency_rates.settings import FIRST_AVAILABLE_DATE
+    from currency_rates_app.services.fetch_data_service import FetchDataService
+    from currency_rates_app.services.date_service import build_workdays_list
 
     import_historic_data()
