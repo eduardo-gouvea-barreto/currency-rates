@@ -147,6 +147,9 @@ REST_FRAMEWORK = {
     ]
 }
 
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
+FIXTURE_DIRS = (os.path.join(PROJECT_ROOT, 'fixtures'),)
+
 MAX_ENTRIES = 5  # Max data series' length
 DEFAULT_CURRENCY_CODE = 'BRL'
 FIRST_AVAILABLE_DATE = (1999, 1, 4)

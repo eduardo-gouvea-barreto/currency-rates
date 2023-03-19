@@ -3,7 +3,7 @@ from django import forms
 from bootstrap_daterangepicker import widgets, fields
 
 from currency_rates.settings import (
-    DEFAULT_CURRENCY_CODE, MAX_ENTRIES, FIRST_AVAILABLE_DATE, DEFAULT_DATE_FORMAT, DEFAULT_DATE_FORMAT_WIDGET_INPUT
+    MAX_ENTRIES, FIRST_AVAILABLE_DATE, DEFAULT_DATE_FORMAT, DEFAULT_DATE_FORMAT_WIDGET_INPUT
 )
 from currency_rates_app.models import Currencies
 from currency_rates_app.services.date_service import build_workdays_list
@@ -11,7 +11,7 @@ from currency_rates_app.services.date_service import build_workdays_list
 
 class GraphForm(forms.Form):
     currency = forms.ModelChoiceField(queryset=Currencies.objects.all(),
-                                      initial=Currencies.objects.get(code=DEFAULT_CURRENCY_CODE), required=True)
+                                      initial=Currencies.objects.first(), required=True)
     date_range = fields.DateRangeField(input_formats=[DEFAULT_DATE_FORMAT],
                                        widget=widgets.DateRangeWidget(format=DEFAULT_DATE_FORMAT, picker_options={
                                            'locale': {'autoUpdateInput': False,

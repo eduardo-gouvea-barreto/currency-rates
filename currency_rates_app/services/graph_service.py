@@ -57,6 +57,8 @@ def build_default_graph() -> (Currencies, List[str], List[float]):
 
     dates = [date.strftime(DEFAULT_DATE_FORMAT) for date in currency_rates.values_list('date', flat=True)]
     dates.reverse()
+    if not dates:  # No data in database
+        dates = [datetime.date.today()]
 
     rates = [float(rate) for rate in currency_rates.values_list('rate', flat=True)]
     rates.reverse()

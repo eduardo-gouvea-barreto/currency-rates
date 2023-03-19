@@ -1,0 +1,10 @@
+[
+  {"model": "currency_rates_app.currencies",
+    "pk": 1,
+    "fields": {"name": "Brazilian real", "code": "BRL", "symbol": "R$"}},
+  {"model": "currency_rates_app.currencies",
+    "pk": 2,
+    "fields": {"name": "Euro", "code": "EUR", "symbol": "€"}},
+  {"model": "currency_rates_app.currencies",
+    "pk": 3,
+    "fields": {"name": "Japanese yen", "code": "JPY", "symbol": "¥"}}]
