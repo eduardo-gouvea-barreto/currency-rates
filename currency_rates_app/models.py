@@ -8,7 +8,7 @@ class Currencies(models.Model):
     symbol = models.CharField(unique=True, max_length=3)
 
     def __str__(self):
-        return self.name
+        return f"{self.code} - {self.name}"
 
     class Meta:
         db_table = 'app_currencies'

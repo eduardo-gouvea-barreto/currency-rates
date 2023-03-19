@@ -23,6 +23,6 @@ def build_workdays_list(date_start: datetime.date, date_end: datetime.date) -> L
 
 def is_workday(date: datetime.date) -> bool:
     """
-    Predicate Function that checks if a date is a weekday.
+    Predicate Function that checks if a date is a workday.
     """
     return date.weekday() not in [5, 6]
