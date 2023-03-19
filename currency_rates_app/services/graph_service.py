@@ -1,10 +1,22 @@
+import datetime
+from typing import List
+
 from currency_rates.settings import DEFAULT_CURRENCY_CODE, MAX_ENTRIES, DEFAULT_DATE_FORMAT
 from currency_rates_app.models import Currencies, RatesBaseDollar
 from currency_rates_app.services.date_service import build_workdays_list
 from currency_rates_app.services.fetch_data_service import FetchDataService
 
 
-def gather_graph_info(currency, date_min, date_max, try_to_fetch_if_data_is_missing=True):
+def gather_graph_info(currency: Currencies, date_min: datetime.date, date_max: datetime.date,
+                      try_to_fetch_if_data_is_missing=True) -> (List[str], List[float], List[str]):
+    """
+    Creates graph series from cleaned form data.
+    Also validates if all dates were used, if not, tries once to fetch them from external API.
+
+    Returns a pair of lists containing dates and their respective currency exchange rates,
+    and also a list with the dates where the information is missing in the database.
+    """
+
     currency_rates = RatesBaseDollar.objects.filter(
         currency=currency,
         date__gte=date_min,
@@ -32,7 +44,11 @@ def gather_graph_info(currency, date_min, date_max, try_to_fetch_if_data_is_miss
     return dates, rates, missing_dates
 
 
-def build_default_graph():
+def build_default_graph() -> (Currencies, List[str], List[float]):
+    """
+    The default graph consists of the latest MAX_ENTRIES data for DEFAULT_CURRENCY_CODE
+    """
+
     currency = Currencies.objects.get(code=DEFAULT_CURRENCY_CODE)
 
     currency_rates = RatesBaseDollar.objects.filter(

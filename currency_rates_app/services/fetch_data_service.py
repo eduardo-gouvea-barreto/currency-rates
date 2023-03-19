@@ -72,7 +72,11 @@ class FetchDataService:
         return list_currency_rates
 
     @staticmethod
-    def insert_currency_rates(currency_rates):
+    def insert_currency_rates(currency_rates: List[Dict]):
+        """
+        For each record in param:currency_rates,
+        validates if the pair (Currency, Date) already exists in the database. In case it doesn't, saves it.
+        """
         for record in currency_rates:
             currency = Currencies.objects.get(code=record['currency_code'])
 
@@ -86,6 +90,9 @@ class FetchDataService:
 
 
 def insert_today_rates():
+    """
+    Gathers from API today's rates for all currencies.
+    """
     today = datetime.date.today()
     if is_workday(today):
         currencies_codes = list(Currencies.objects.values_list('code', flat=True))

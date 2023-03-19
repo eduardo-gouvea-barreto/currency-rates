@@ -52,34 +52,26 @@
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
         <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-                crossorigin="anonymous">
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-              rel="stylesheet"
-              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-              crossorigin="anonymous"
-        >
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-        <link rel="icon" type="image/png" href="{% static '/img/favicon.ico' %}">
+        <link rel="icon" type="image/png" href="{% static '/img/favicon.ico' %}" />
         <div class="container">
             {% if messages %}
-                <div class="row justify-content-md-center text-center">
-                    {% for message in messages %}
-                    <div class="col-8 p-4">
-                        <div class="alert alert-{{message.tags}}">{{ message }}</div>
-                    </div>
-                    {% endfor %}
+            <div class="row justify-content-md-center text-center">
+                {% for message in messages %}
+                <div class="col-8 p-4">
+                    <div class="alert alert-{{message.tags}}">{{ message }}</div>
                 </div>
+                {% endfor %}
+            </div>
             {% endif %}
             <div class="row text-end">
                 <div class="col pt-2">
-                    <button class="btn btn-primary btn-modal" data-toggle="modal" data-target="#info">API
-                    </button>
+                    <button class="btn btn-primary btn-modal" data-toggle="modal" data-target="#info">API</button>
                 </div>
             </div>
             <div class="row justify-content-md-center text-center">
@@ -89,7 +81,7 @@
                     </figure>
                 </div>
             </div>
-            <hr>
+            <hr />
             <form method="GET">
                 <div class="row justify-content-md-center text-center pt-4 pb-4">
                     <div class="col-3">
@@ -107,12 +99,12 @@
                     </div>
                 </div>
             </form>
-            <hr>
+            <hr />
             <div class="row justify-content-md-center text-center pt-4 pb-5">
                 <div class="col">
                     <a href="https://github.com/eduardo-gouvea-barreto/currency-rates">
-                          <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="50" width="50">
-                          GitHub
+                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" height="50" width="50" />
+                        GitHub
                     </a>
                 </div>
             </div>
@@ -161,49 +153,52 @@
             });
         </script>
         <div class="modal fade text-center" id="info" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog text-left">
-            <div class="modal-content width-500 mx-auto">
-                <div class="modal-header">
-                    <h3 class="modal-title">API</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body" style="text-align:left">
-                        <strong><span style="color:green">GET</span> CURRENCIES</strong>
+            <div class="modal-dialog text-left">
+                <div class="modal-content width-500 mx-auto">
+                    <div class="modal-header">
+                        <h3 class="modal-title">API</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="text-align: left;">
+                        <strong><span style="color: green;">GET</span> CURRENCIES</strong>
                         <div class="p-2 mb-2 bg-primary text-white">https://{% verbatim %}{{domain}}{% endverbatim %}/api/currencies</div>
-                      <div style="line-height:1.5">
-                            <br>
-                          <span><strong>Example Request:</strong></span>
-                          <div>https://{% verbatim %}{{domain}}{% endverbatim %}/api/currencies</div>
-                          <br>
-                          <span><strong>Example Response:</strong></span>
-                          <div>
-                            [{"name":"Brazilian real","code":"BRL","symbol":"R$"},{"name":"Euro","code":"EUR","symbol":"€"},{"name":"Japanese yen","code":"JPY","symbol":"¥"}]
-                          </div>
-                      </div>
-                        <hr>
-                        <strong><span style="color:green">GET</span> RATES</strong>
-                      <div class="p-2 mb-2 bg-primary text-white">https://{% verbatim %}{{domain}}{% endverbatim %}/api/rates?currency_code={% verbatim %}{{code}}{% endverbatim %}&date_min={% verbatim %}{{YYYY-mm-dd}}{% endverbatim %}&date_max={% verbatim %}{{YYYY-mm-dd}}{% endverbatim %}</div>
-                      <div style="line-height:1.5">
-                            <br>
-                          <span><strong>Example Request:</strong></span>
-                          <div>https://{% verbatim %}{{domain}}{% endverbatim %}/api/rates?currency_code=EUR&date_min=2021-11-15&date_max=2021-11-18</div>
-                          <br>
-                          <span><strong>Example Response:</strong></span>
-                          <div>
-                            [{"currency_code":"EUR","date":"2021-11-18","rate":"0.8814"},{"currency_code":"EUR","date":"2021-11-17","rate":"0.8837"},{"currency_code":"EUR","date":"2021-11-16","rate":"0.8797"},{"currency_code":"EUR","date":"2021-11-15","rate":"0.8738"}]
-                          </div>
-                      </div>
-                  </div>
+                        <div style="line-height: 1.5;">
+                            <br />
+                            <span><strong>Example Request:</strong></span>
+                            <div>https://{% verbatim %}{{domain}}{% endverbatim %}/api/currencies</div>
+                            <br />
+                            <span><strong>Example Response:</strong></span>
+                            <div>
+                                [{"name":"Brazilian real","code":"BRL","symbol":"R$"},{"name":"Euro","code":"EUR","symbol":"€"},{"name":"Japanese yen","code":"JPY","symbol":"¥"}]
+                            </div>
+                        </div>
+                        <hr />
+                        <strong><span style="color: green;">GET</span> RATES</strong>
+                        <div class="p-2 mb-2 bg-primary text-white">
+                            https://{% verbatim %}{{domain}}{% endverbatim %}/api/rates?currency_code={% verbatim %}{{code}}{% endverbatim %}&date_min={% verbatim %}{{YYYY-mm-dd}}{% endverbatim %}&date_max={% verbatim %}{{YYYY-mm-dd}}{%
+                            endverbatim %}
+                        </div>
+                        <div style="line-height: 1.5;">
+                            <br />
+                            <span><strong>Example Request:</strong></span>
+                            <div>https://{% verbatim %}{{domain}}{% endverbatim %}/api/rates?currency_code=EUR&date_min=2021-11-15&date_max=2021-11-18</div>
+                            <br />
+                            <span><strong>Example Response:</strong></span>
+                            <div>
+                                [{"currency_code":"EUR","date":"2021-11-18","rate":"0.8814"},{"currency_code":"EUR","date":"2021-11-17","rate":"0.8837"},{"currency_code":"EUR","date":"2021-11-16","rate":"0.8797"},{"currency_code":"EUR","date":"2021-11-15","rate":"0.8738"}]
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <script>
-            $(document).ready(function(){
-                $(".btn-modal").on('click', function() {
-                    let modal_ = $(this).attr('data-target');
-                    $(modal_).modal("toggle");
+            <script>
+                $(document).ready(function () {
+                    $(".btn-modal").on("click", function () {
+                        let modal_ = $(this).attr("data-target");
+                        $(modal_).modal("toggle");
+                    });
                 });
-            });
-        </script>
-    </div>
+            </script>
+        </div>
     </body>
 </html>

@@ -16,6 +16,12 @@ from currency_rates_app.serializers import CurrenciesSerializer, RatesSerializer
 
 
 def index(request):
+    """
+    Application's main page. Populates a Highchart series with at most MAX_ENTRIES entry points.
+    Allows user to pick Currency and Data Range to customize the view.
+    If requested data isn't in database, tries to fetch once from external API.
+    If no Parameters are given, builds graph with the latest MAX_ENTRIES dates for DEFAULT_CURRENCY_CODE.
+    """
     if request.method == 'GET':
         if len(request.GET) > 0:
             form = GraphForm(data=request.GET)
@@ -43,6 +49,9 @@ def index(request):
 
 
 class CurrenciesApiView(APIView):
+    """
+    Simple APIView with ModelSerializer for application's Currencies.
+    """
     def get(self, requests):
         currencies = Currencies.objects.all()
         serializer = CurrenciesSerializer(currencies, many=True)
@@ -50,6 +59,12 @@ class CurrenciesApiView(APIView):
 
 
 class RatesApiView(APIView):
+    """
+    Simple APIView with ModelSerializer for application's RatesBaseDollar.
+    Custom parameters are 'Currency Code', 'Min Date', and 'Max Date'.
+    If no 'Min Date' is given, slices the QuerySet to prevent slow responses.
+    Returns serialized JSON Object on Success (200) or JSON Errors on Bad Request (400).
+    """
     def get(self, request):
         rates = RatesBaseDollar.objects.all().order_by('-date', 'currency__code')
         date_min, date_max, currency_code = (

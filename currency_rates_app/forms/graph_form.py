@@ -23,6 +23,9 @@ class GraphForm(forms.Form):
             visible.field.widget.attrs['class'] = 'form-control'
 
     def clean_date_range(self):
+        """
+        Custom clean method for date_range.
+        """
         data_min, data_max = self.cleaned_data['date_range']
         workdays_list = build_workdays_list(data_min, data_max)
 
