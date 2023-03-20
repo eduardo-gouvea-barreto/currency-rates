@@ -1,4 +1,4 @@
-Simple Django application that fetches, stores and shows historic currency rate data.
+Django application that fetches, stores and shows historic currency rate data.
 Currently supports the following rates:
 USD x BRL
 USD x EUR
